@@ -1,6 +1,6 @@
 const request = require('request');
 
-const apikey = "";
+const apikey = require('apikey');
 
 var riotAPIRequest = {
     url: "",

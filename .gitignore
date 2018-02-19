@@ -79,3 +79,6 @@ mongod
 *.njsproj
 *.sln
 
+# API KEYS
+#==========
+apikey.js
