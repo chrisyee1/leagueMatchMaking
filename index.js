@@ -1,6 +1,6 @@
 const request = require('request');
 
-const apikey = "RGAPI-a2b77bf9-8835-4b0b-8e75-0c5fa5be87f4";
+const apikey = "";
 
 var riotAPIRequest = {
     url: "",
