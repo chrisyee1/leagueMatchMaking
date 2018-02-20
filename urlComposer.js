@@ -7,7 +7,8 @@
  * Case 3: Summoner Champion Mastery information
  * Case 4: Summoner Last 100 Games information
  */
-var composeRiotURL = function(type, region, field1, field2){
+
+let composeRiotURL = function(type, region, field1, field2){
   switch (type) {
     case 0:
         // Get summoner information using summoner name
@@ -33,5 +34,10 @@ var composeRiotURL = function(type, region, field1, field2){
         break;
     default:
         url = "error";
-  } 
+  }
+  return url;    
+}
+
+module.exports = {
+    composeRiotURL : composeRiotURL
 }
