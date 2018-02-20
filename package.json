@@ -10,8 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "async": "2.6.0",
-    "bluebird": "3.5.1",
     "foreman": "2.0.0",
     "request": "2.83.0",
     "request-promise": "4.2.2"

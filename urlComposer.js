@@ -30,7 +30,11 @@ let composeRiotURL = function(type, region, field1, field2){
     case 4:
         // Get any games played with a specific champion in the last 100 games played using account id
         url = "https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/" + field1 
-            + "beginTime=0&champion=" + field2;
+            + "?beginIndex=0&champion=" + field2;
+        break;
+    case 5:
+        // Get summoner information using summoner id
+        url = "https://na1.api.riotgames.com//lol/summoner/v3/summoners/" + field1;
         break;
     default:
         url = "error";
