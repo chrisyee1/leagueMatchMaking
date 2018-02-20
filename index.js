@@ -13,10 +13,12 @@ async function fetchRiotData() {
     let response;
     let playerData = [];
     let promiseList = [];
-    response = await rp(new RiotAPIRequest(urlComposer.composeRiotURL(0, "", "nourisop")));
-    console.log(response);
+    let rankStats = [];
+    let champMastery = [];
+    let playerInfo = [];
+    let rankedGames = [];
+    response = await rp(new RiotAPIRequest(urlComposer.composeRiotURL(0, "", "Angels")));
     response = await rp(new RiotAPIRequest(urlComposer.composeRiotURL(1, "", response.id)));
-    console.log(response);
     for(let key in response.participants) {
         let soloSpecData = new Object();
         soloSpecData = {
@@ -26,22 +28,25 @@ async function fetchRiotData() {
         };
         playerData.push(soloSpecData);
     }
-    console.log(playerData);
-    for(let key in playerData) {
-        playerData[key].rankStats = await rp(new RiotAPIRequest(urlComposer.composeRiotURL(2, "", playerData[key].id)));
-    }
+    rankStats = await Promise.all(playerData.map(x => rp(new RiotAPIRequest(urlComposer.composeRiotURL(2, "", x.id)))));
+    console.log(rankStats);
+    champMastery = await Promise.all(playerData.map(x => rp(new RiotAPIRequest(urlComposer.composeRiotURL(3, "", x.id, x.champ)))));
+    console.log(champMastery);
+    playerData.playerInfo = await Promise.all(playerData.map(x => rp(new RiotAPIRequest(urlComposer.composeRiotURL(5, "", x.id)))));
+    console.log(playerInfo);
+    rankedGames = await Promise.all(playerData.map(x => rp(new RiotAPIRequest(urlComposer.composeRiotURL(4, "",  playerData[key].playerInfo.accountId, x.champ)))));
+    console.log(rankStats);
+    /*
     for(let key in playerData) {
         playerData[key].champMastery = await rp(new RiotAPIRequest(urlComposer.composeRiotURL(3, "", playerData[key].id, playerData[key].champ)));
     }
-    console.log(playerData);
     for(let key in playerData) {
         playerData[key].playerInfo = await rp(new RiotAPIRequest(urlComposer.composeRiotURL(5, "", playerData[key].id)));
     }   
-    console.log(playerData);
     for(let key in playerData) {
         playerData[key].rankedGames = await rp(new RiotAPIRequest(urlComposer.composeRiotURL(4, "",  playerData[key].playerInfo.accountId, playerData[key].champ)));
     }   
-    console.log(playerData);
+    */
 }
 
 fetchRiotData();
