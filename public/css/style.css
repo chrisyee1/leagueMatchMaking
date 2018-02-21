@@ -72,6 +72,9 @@ body {
   .ghost-button:hover {
     border:2px solid #515151;
   }
-  p {
+  .returnData {
+    margin: 0 auto;
+  }
+  p {   
     color: #E64A19;
   }
