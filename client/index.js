@@ -1,9 +1,9 @@
 const react = require('react');
 const reactDOM = require('react-dom');
-const SummonerQuery = require('./components/Query');
+const App = require('./components/App');
 const Table = require('./components/Table');
 
 reactDOM.render(
-    <SummonerQuery />,
+    <App />,
     document.getElementById('app')
 )

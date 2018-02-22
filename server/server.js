@@ -5,23 +5,32 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.all('/', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+    next();
+});
+
 app.get('/', function (req, res) {
-    res.render('index', {summName: null, error: null});
+    res.send({status: "Success."});
 })
 
-/*
 app.post('/', function (req, res) {
     console.log(req.body);
     fetchRiotData(req.body.summName).then((data) => {
         if(data instanceof Error){
             console.log(data);
-            res.render('index', {summName: null, error: data});
+            res.status(500);
+            res.send({code:500, error:data.message});
         } else {
-            res.render('index', {summName: JSON.stringify(data), error: null});
+            res.send(data);
         }
     });
-  })
-  */
+})
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
@@ -47,14 +56,14 @@ async function fetchRiotData(summName) {
         response = await rp(new RiotAPIRequest(urlComposer.composeRiotURL(0, "", summName)));
     }
     catch(e){
-        return new Error("Summoner cannot be found.");
+        return new Error(e.message);
     }
     // Fetch current game using summoner id
     try{
         response = await rp(new RiotAPIRequest(urlComposer.composeRiotURL(1, "", response.id)));
     }
     catch(e){
-        return new Error("Summoner is currently not in a game.");
+        return new Error(e.message);
     }
     for(let key in response.participants) {
         let soloSpecData = new Object();
@@ -62,6 +71,7 @@ async function fetchRiotData(summName) {
             id: response.participants[key].summonerId,
             champ: response.participants[key].championId,
             summonerName: response.participants[key].summonerName,
+            teamId: response.participants[key].summonerName,
         };
         playerData.push(soloSpecData);
     }
@@ -72,7 +82,7 @@ async function fetchRiotData(summName) {
         }
     }
     catch(e){
-        console.log("At least one summoner is unranked.");
+        console.log(e.message);
     }
     // Fetch champ mastery using champion id of current champ being played and summoner id
     try{
@@ -81,7 +91,7 @@ async function fetchRiotData(summName) {
         }
     }
     catch(e){
-        console.log("At least one summoner has not played the champ they are playing.");
+        console.log(e.message);
     }
     // Fetch account id using summoner id
     try{
@@ -90,7 +100,7 @@ async function fetchRiotData(summName) {
         }   
     }
     catch(e){
-        return new Error("Unexpected error");
+        return new Error(e.message);
     }
     // Fetch recent games played using account id
     try{
@@ -99,7 +109,7 @@ async function fetchRiotData(summName) {
         }
     }
     catch(e){
-        console.log("At least one summoner has no match history.");
+        console.log(e.message);
     }
     return playerData;
 }
