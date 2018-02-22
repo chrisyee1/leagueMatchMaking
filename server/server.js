@@ -1,19 +1,15 @@
 const rp = require('request-promise');
 const apikey = require('./apikey.js');
 const urlComposer = require('./urlComposer.js');
-const express = require('express');
 const bodyParser = require('body-parser');
+const express = require('express');
 const app = express();
-
-
-app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
 
 app.get('/', function (req, res) {
     res.render('index', {summName: null, error: null});
 })
 
+/*
 app.post('/', function (req, res) {
     console.log(req.body);
     fetchRiotData(req.body.summName).then((data) => {
@@ -25,10 +21,12 @@ app.post('/', function (req, res) {
         }
     });
   })
+  */
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
+
 
 // RiotAPIRequest options object for use by Request
 function RiotAPIRequest(url){
