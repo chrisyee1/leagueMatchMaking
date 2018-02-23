@@ -1,13 +1,15 @@
 
 React = require('react');
-reactDom = require('react-dom');
+reactDOM = require('react-dom');
+const PlayerTable = require('./PlayerTable');
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
         summName: "",
-        parsedData: [],
+        redTeam: [],
+        blueTeam: [],
     };
     
     this.handleChange = this.handleChange.bind(this);
@@ -16,8 +18,7 @@ class App extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.state.parsedData = [];
-    console.log(this.state.summName);
+    this.setState({parseData: []});
     fetch('http://localhost:3000', {
       method: 'POST',
       headers: {
@@ -33,7 +34,7 @@ class App extends React.Component {
       this.parseData(data);
       console.log(this.state.parsedData);
       reactDOM.render(
-        <Table playerInfo={this.state.parsedData}/>,
+        <PlayerTable redTeam={this.state.redTeam} blueTeam={this.state.blueTeam}/>,
         document.getElementById('table-div')
       )
     });
@@ -49,9 +50,19 @@ class App extends React.Component {
       let dataHolder = {};
       dataHolder.summonerName = gameData[key].summonerName;
       dataHolder.champ = gameData[key].champ;
-      dataHolder.teamId = gameData[key].teamId;
-      dataHolder.championPoints = gameData[key].champMastery.championPoints;
-      dataHolder.totalGames = gameData[key].rankedGames.totalGames;
+      if(gameData[key].champMastery === undefined){
+        dataHolder.championPoints = 0;
+      }
+      else {
+        dataHolder.championPoints = gameData[key].champMastery.championPoints;
+      }
+      if(gameData[key].rankedGames === undefined){
+        dataHolder.totalGames = 0;
+      }
+      else {
+        dataHolder.totalGames = gameData[key].rankedGames.totalGames;
+      }
+
       dataHolder.rankedData = [];
       for(let ranks in gameData[key].rankInfo){
         let rankInfo = {};
@@ -62,7 +73,17 @@ class App extends React.Component {
         rankInfo.losses = gameData[key].rankInfo[ranks].losses;
         dataHolder.rankedData.push(rankInfo);
       }
-      this.state.parsedData.push(dataHolder);
+
+      if(gameData[key].teamId == 100){
+        let prevState = this.state.blueTeam;
+        prevState.push(dataHolder);
+        this.setState({blueTeam: prevState});
+      }
+      else{
+        let prevState = this.state.redTeam;
+        prevState.push(dataHolder);
+        this.setState({redTeam: prevState});
+      }
     }
   }
 

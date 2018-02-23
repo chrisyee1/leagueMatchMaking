@@ -78,3 +78,16 @@ body {
   p {   
     color: #E64A19;
   }
+
+  table {
+    float: left;
+    width: 50%;
+  }
+
+  th {
+    height: 50px;
+  }
+
+.sindu_dragging .sindu_origin_table {
+  visibility: visible;
+}

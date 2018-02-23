@@ -71,7 +71,7 @@ async function fetchRiotData(summName) {
             id: response.participants[key].summonerId,
             champ: response.participants[key].championId,
             summonerName: response.participants[key].summonerName,
-            teamId: response.participants[key].summonerName,
+            teamId: response.participants[key].teamId,
         };
         playerData.push(soloSpecData);
     }

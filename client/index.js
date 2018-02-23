@@ -1,7 +1,8 @@
 const react = require('react');
 const reactDOM = require('react-dom');
 const App = require('./components/App');
-const Table = require('./components/Table');
+const PlayerTable = require('./components/PlayerTable');
+
 
 reactDOM.render(
     <App />,
