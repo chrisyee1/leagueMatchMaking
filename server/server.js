@@ -56,14 +56,14 @@ async function fetchRiotData(summName) {
         response = await rp(new RiotAPIRequest(urlComposer.composeRiotURL(0, "", summName)));
     }
     catch(e){
-        return new Error(e.message);
+        return new Error(e.message +  " Summoner cannot be acquired.");
     }
     // Fetch current game using summoner id
     try{
         response = await rp(new RiotAPIRequest(urlComposer.composeRiotURL(1, "", response.id)));
     }
     catch(e){
-        return new Error(e.message);
+        return new Error(e.message + " An existing game cannot be acquired.");
     }
     for(let key in response.participants) {
         let soloSpecData = new Object();
@@ -72,6 +72,7 @@ async function fetchRiotData(summName) {
             champ: response.participants[key].championId,
             summonerName: response.participants[key].summonerName,
             teamId: response.participants[key].teamId,
+            gameQueue: response.gameQueueConfigId,
         };
         playerData.push(soloSpecData);
     }
@@ -100,7 +101,7 @@ async function fetchRiotData(summName) {
         }   
     }
     catch(e){
-        return new Error(e.message);
+        return new Error(e.message + " Unexpected error fetching data.");
     }
     // Fetch recent games played using account id
     try{

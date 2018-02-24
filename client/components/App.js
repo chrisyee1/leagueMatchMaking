@@ -18,7 +18,13 @@ class App extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.setState({parseData: []});
+    reactDOM.render(
+      <div className="loader"></div>,
+      document.getElementById('table-div')
+    )
+    this.setState({redTeam: []});
+    this.setState({blueTeam: []});
+    let error = false;
     fetch('http://localhost:3000', {
       method: 'POST',
       headers: {
@@ -28,11 +34,20 @@ class App extends React.Component {
       body: JSON.stringify({
         summName: this.state.summName,
       })
-    }). then(data => {
+    }). then(data => { 
+      if(data.status != 200){
+        error = true;
+      }
       return data.json();
     }). then(data => {
+      if(error == true) {
+        reactDOM.render(
+          <p>{data.error}</p>,
+          document.getElementById('table-div')
+        )
+        return;
+      }
       this.parseData(data);
-      console.log(this.state.parsedData);
       reactDOM.render(
         <PlayerTable redTeam={this.state.redTeam} blueTeam={this.state.blueTeam}/>,
         document.getElementById('table-div')

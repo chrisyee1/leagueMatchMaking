@@ -1,5 +1,6 @@
 React = require('react');
 tableDragger = require('table-dragger');
+TableRow = require('./TableRow');
 
 class PlayerTable extends React.Component {
 
@@ -8,12 +9,13 @@ class PlayerTable extends React.Component {
     this.state = {
       redTeam: props.redTeam,
       blueTeam: props.blueTeam,
-      sumArray: [],
       red: [],
       blue: [],
       filler: []
     }
-    
+  }
+
+  render() {
     for(let key in this.state.redTeam){
       this.state.red.push(this.state.redTeam[key]);
     }
@@ -21,49 +23,41 @@ class PlayerTable extends React.Component {
     for(let key in this.state.blueTeam){
       this.state.blue.push(this.state.blueTeam[key]);
     }
-    /*
-    let maxSize;
-    (this.state.redTeam.length < this.state.blueTeam.length ? maxSize = this.state.blueTeam.length : maxSize = this.state.redTeam.length);
-
-    for(let i = 0; i < maxSize; i++){
-      let rowObj = {};
-      rowObj.blueSum = this.state.blueTeam[i].summonerName;
-      rowObj.matchUp = "Filler";
-      rowObj.redSum = this.state.redTeam[i].summonerName;
-      this.state.sumArray.push(rowObj);
-    }
-    */
-  }
-
-  render() {
-
-    console.log(this.state.sumArray);
-    const TableRow = ({key, row}) => (
-      <tr>
-        <td key={key}>{row.summonerName}</td>
-      </tr>
-    );
-
+    console.log(this.state.red[0].rankedData);
     return (
-      <div>
-        <table className="dataTable" id="blueTable">
+      <div className="tableContainer">
+        <table className="blueTable" id="blueTab">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Champion</th>
+              <th>Mastery</th>
+            </tr>
+          </thead>
           <tbody>
             {this.state.blue.map(row => {
-                return <TableRow key={row.uniqueId} row={row}/>
+                return <TableRow.BlueTableRow className={"blue"} key={new Date().getTime() + row.summonerName} row={row}/>
               })}
           </tbody>
         </table>
         <table className="dataTable" id="fillTable">
           <tbody>
             {this.state.filler.map(row => {
-                return <TableRow key={row.uniqueId} row={row}/>
+                return <TableRow.MiddleTableRow className={"middle"} key={new Date().getTime() + row.summonerName} row={row}/>
               })}
           </tbody>
         </table>
-        <table className="dataTable" id="redTable">
+        <table className="redTable" id="redTab">
+          <thead>
+            <tr>
+              <th>Mastery</th>
+              <th>Champion</th>
+              <th>Name</th>
+            </tr>
+          </thead>
           <tbody>
             {this.state.red.map(row => {
-                return <TableRow key={row.uniqueId} row={row}/>
+                return <TableRow.RedTableRow className={"red"} key={new Date().getTime() + row.summonerName} row={row}/>
               })}
           </tbody>
         </table>
@@ -72,16 +66,20 @@ class PlayerTable extends React.Component {
   }
   
   componentDidMount() { 
-    let elBlue = document.getElementById('blueTable');
+    let elBlue = document.getElementById('blueTab');
     let draggerB = tableDragger(elBlue, {
       mode: 'row',
+      onlyBody: true,
+      dragHandler: ".handle",
     });
     draggerB.on('drag',function(from, to){
     });
     
-    let elRed = document.getElementById('redTable');
+    let elRed = document.getElementById('redTab');
     let draggerR = tableDragger(elRed, {
       mode: 'row',
+      onlyBody: true,
+      dragHandler: ".handle",
     });
     draggerR.on('drop',function(from, to){
     });
