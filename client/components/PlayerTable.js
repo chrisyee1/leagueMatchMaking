@@ -27,16 +27,17 @@ class PlayerTable extends React.Component {
     return (
       <div className="tableContainer">
         <table className="blueTable" id="blueTab">
+          <caption className="blueTableTitle" >Blue Team</caption>
           <thead>
             <tr>
               <th>Name</th>
               <th>Champion</th>
-              <th>Mastery</th>
+              <th>Games Played</th>
             </tr>
           </thead>
-          <tbody>
-            {this.state.blue.map(row => {
-                return <TableRow.BlueTableRow className={"blue"} key={new Date().getTime() + row.summonerName} row={row}/>
+          <tbody className="blueTableBody">
+            {this.state.blue.map((row, index) => {
+                return <TableRow.BlueTableRow className={"blue"} key={new Date().getTime() + row.summonerName} row={row} index={index}/>
               })}
           </tbody>
         </table>
@@ -48,16 +49,17 @@ class PlayerTable extends React.Component {
           </tbody>
         </table>
         <table className="redTable" id="redTab">
+          <caption className="redTableTitle">Red Team</caption>
           <thead>
             <tr>
-              <th>Mastery</th>
+              <th>Games Played</th>
               <th>Champion</th>
               <th>Name</th>
             </tr>
           </thead>
-          <tbody>
-            {this.state.red.map(row => {
-                return <TableRow.RedTableRow className={"red"} key={new Date().getTime() + row.summonerName} row={row}/>
+          <tbody className="redTableBody">
+            {this.state.red.map((row, index) => {
+                return <TableRow.RedTableRow className={"red"} key={new Date().getTime() + row.summonerName} row={row} index={index}/>
               })}
           </tbody>
         </table>

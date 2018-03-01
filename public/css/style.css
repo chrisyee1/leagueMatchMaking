@@ -75,10 +75,35 @@ body {
   .returnData {
     margin: 0 auto;
   }
+  .blueRow0 {
+    background-color: lightblue;
+  }
+  .blueRow1 {
+    background-color: skyblue;
+  }
+  .redRow0 {
+    background-color: lightcoral;
+  }
+  .redRow1 {
+    background-color: lightpink;
+  }
+  .redTableTitle {
+    font-size: 20px;
+    color: darkred;
+  }
+  .blueTableTitle {
+    font-size: 20px;
+    color: darkblue;
+  }
+  .blueTableBody {
+    border-left: 6px solid blue;
+  }
+  .redTableBody {
+    border-right: 6px solid red;
+  }
   .sindu_dragging .sindu_origin_table {
     visibility: visible;
   }
-
   .loader {
     border: 16px solid #f3f3f3; /* Light grey */
     border-top: 16px solid #3498db; /* Blue */
@@ -112,10 +137,16 @@ body {
   td {
     min-width:100%;
     white-space:nowrap;
-    vertical-align: middle;
     text-align: center;
+    padding-top: 3px;
+    padding-bottom: 3px;
     padding-left: 5px;
     padding-right: 5px;
+  }
+
+  thead{
+    padding: 10px;
+    font-size: 15px;
   }
 
   .redTable .champIcon {
@@ -147,7 +178,7 @@ body {
   }
   
   .image-list ul {
-    padding: 0 0 0 5px;
+    padding: 5px;
     margin: 0;
     list-style: none;
   }
