@@ -7,7 +7,3 @@ The League Matchup Checker is a way for users to examine their match up in a cur
 * NodeJS for the backend
 * React for the frontend
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
