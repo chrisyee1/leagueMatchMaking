@@ -3,7 +3,9 @@ const apikey = require('./apikey.js');
 const urlComposer = require('./urlComposer.js');
 const bodyParser = require('body-parser');
 const express = require('express');
+const fs = require('fs');
 const app = express();
+const champData = require('../client/champData.json');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -65,6 +67,25 @@ async function fetchRiotData(summName) {
     catch(e){
         return new Error(e.message + " An existing game cannot be acquired.");
     }
+    // Check if champ JSON is up to date, if not, update it
+    try{
+        champStuff = await rp(new RiotAPIRequest(urlComposer.composeRiotURL(6, "")));
+    }
+    catch(e){
+        console.log(e.message + "Error checking champion list.");
+    }
+    try{
+        if(champStuff.version != champData.version){
+            fs.writeFile('./client/champData.json', JSON.stringify(champStuff), 'utf8', (err) => {
+                if (err) console.log(err.message);
+                console.log('New Champ Data created!');
+              });
+        }
+    }
+    catch(e){
+        console.log("Too many requests or issue with static data retrieval. Continuing...")
+    }
+
     for(let key in response.participants) {
         let soloSpecData = new Object();
         soloSpecData = {
@@ -76,6 +97,7 @@ async function fetchRiotData(summName) {
         };
         playerData.push(soloSpecData);
     }
+    
     // Fetch ranked stats using summoner id
     try {
         for(let key in playerData) {
@@ -83,7 +105,7 @@ async function fetchRiotData(summName) {
         }
     }
     catch(e){
-        console.log(e.message);
+        console.log(e.message + "Error fetching ranked stats");
     }
     // Fetch champ mastery using champion id of current champ being played and summoner id
     try{
@@ -92,7 +114,7 @@ async function fetchRiotData(summName) {
         }
     }
     catch(e){
-        console.log(e.message);
+        console.log(e.message + "Error fetching champ mastery data");
     }
     // Fetch account id using summoner id
     try{
@@ -110,7 +132,7 @@ async function fetchRiotData(summName) {
         }
     }
     catch(e){
-        console.log(e.message);
+        console.log(e.message + "Error fetching recent games data");
     }
     return playerData;
 }

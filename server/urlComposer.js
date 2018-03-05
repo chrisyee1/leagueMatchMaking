@@ -36,6 +36,10 @@ let composeRiotURL = function(type, region, field1, field2){
         // Get summoner information using summoner id
         url = "https://na1.api.riotgames.com//lol/summoner/v3/summoners/" + field1;
         break;
+    case 6:
+        // Get champion info
+        url ="https://na1.api.riotgames.com/lol/static-data/v3/champions?locale=en_US&champListData=image&dataById=false";
+        break;
     default:
         url = "error";
   }

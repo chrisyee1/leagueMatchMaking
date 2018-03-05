@@ -23,11 +23,9 @@ class PlayerTable extends React.Component {
     for(let key in this.state.blueTeam){
       this.state.blue.push(this.state.blueTeam[key]);
     }
-    console.log(this.state.red[0].rankedData);
     return (
       <div className="tableContainer">
         <table className="blueTable" id="blueTab">
-          <caption className="blueTableTitle" >Blue Team</caption>
           <thead>
             <tr>
               <th>Name</th>
@@ -49,7 +47,6 @@ class PlayerTable extends React.Component {
           </tbody>
         </table>
         <table className="redTable" id="redTab">
-          <caption className="redTableTitle">Red Team</caption>
           <thead>
             <tr>
               <th>Games Played</th>

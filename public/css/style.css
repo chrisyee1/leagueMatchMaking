@@ -75,25 +75,11 @@ body {
   .returnData {
     margin: 0 auto;
   }
-  .blueRow0 {
+  .blueRow {
     background-color: lightblue;
   }
-  .blueRow1 {
-    background-color: skyblue;
-  }
-  .redRow0 {
-    background-color: lightcoral;
-  }
-  .redRow1 {
+  .redRow {
     background-color: lightpink;
-  }
-  .redTableTitle {
-    font-size: 20px;
-    color: darkred;
-  }
-  .blueTableTitle {
-    font-size: 20px;
-    color: darkblue;
   }
   .blueTableBody {
     border-left: 6px solid blue;

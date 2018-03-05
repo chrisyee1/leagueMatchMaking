@@ -2,6 +2,7 @@
 React = require('react');
 reactDOM = require('react-dom');
 const PlayerTable = require('./PlayerTable');
+const champData = require('../champData.json');
 
 class App extends React.Component {
   constructor(props) {
@@ -60,10 +61,17 @@ class App extends React.Component {
   }
 
   parseData(gameData) {
-    console.log(gameData);
     for(let key in gameData){
       let dataHolder = {};
       dataHolder.summonerName = gameData[key].summonerName;
+      console.log(gameData[key].champ);
+      for(let champID in champData.data){
+        console.log(champData.data[champID].id);
+        if(champData.data[champID].id == gameData[key].champ){
+          dataHolder.champName = champData.data[champID].name;
+          dataHolder.champIcon = this.createChampionURL(champData.version, champData.data[champID].image.full);
+        }
+      }
       dataHolder.champ = gameData[key].champ;
       if(gameData[key].champMastery === undefined){
         dataHolder.championPoints = 0;
@@ -100,6 +108,10 @@ class App extends React.Component {
         this.setState({redTeam: prevState});
       }
     }
+  }
+
+  createChampionURL(version, champURL){
+    return "http://ddragon.leagueoflegends.com/cdn/" + version + "/img/champion/" + champURL;
   }
 
   render() {

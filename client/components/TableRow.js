@@ -1,18 +1,18 @@
 const BlueTableRow = ({className, row, index}) => (
-    <tr className={"blueRow" + index % 2}>
+    <tr className={"blueRow"}>
         <td className={className + "Name" + " handle"}>{row.summonerName}</td>
         <td className={className + "Champ"}>
-            <BlueChampionInfo imgSrc="http://ddragon.leagueoflegends.com/cdn/7.5.2/img/champion/Warwick.png"/>
+            <BlueChampionInfo imgSrc={row.champIcon} champName={row.champName}/>
         </td>
         <td className={className + "Mastery"}>{row.totalGames.toString()}</td>
     </tr>
 );
 
 const RedTableRow = ({className, row, index}) => (
-    <tr className={"redRow" + index % 2}>
+    <tr className={"redRow"}>
         <td className={className + "Mastery"}>{row.totalGames.toString()}</td>
         <td className={className + "Champ"}>
-            <RedChampionInfo imgSrc="http://ddragon.leagueoflegends.com/cdn/7.5.2/img/champion/Warwick.png"/>
+            <RedChampionInfo imgSrc={row.champIcon} champName={row.champName}/>
         </td>
         <td className={className + "Name"+ " handle"}>{row.summonerName}</td>
     </tr>
@@ -24,7 +24,7 @@ const MiddleTableRow = ({className, key, row}) => (
     </tr>
 );
 
-const BlueChampionInfo = ({imgSrc}) => (
+const BlueChampionInfo = ({imgSrc, champName}) => (
     <div className="people">  
         <div className='col mid'>
             <img className="champIcon" src={imgSrc}/>     
@@ -32,7 +32,7 @@ const BlueChampionInfo = ({imgSrc}) => (
         <div className='image-list'>
             <ul>
                 <li>
-                    <label>Champion Name</label>
+                    <label>{champName}</label>
                 </li>
                 <li>
                     <a href="#">Games Played</a>
@@ -42,12 +42,12 @@ const BlueChampionInfo = ({imgSrc}) => (
     </div>
 )
 
-const RedChampionInfo = ({imgSrc}) => (
+const RedChampionInfo = ({imgSrc, champName}) => (
     <div className="people">  
         <div className='image-list'>
             <ul>
                 <li>
-                    <label>Champion Name</label>
+                    <label>{champName}</label>
                 </li>
                 <li>
                     <a href="#">Games Played</a>
